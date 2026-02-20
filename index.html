@@ -70,7 +70,7 @@ h1 {
 /* 💻 PC (acima de 1025px) */
 @media (min-width: 1025px) {
     #gameList {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(8, 1fr);
     }
 }
 
@@ -82,21 +82,29 @@ h1 {
     transition: 0.3s;
 }
 
-.card:hover {
-    transform: scale(1.11);
+@media (hover: hover) {
+  .card:hover {
+      transform: scale(1.11);
+  }
 }
 
 .card img {
     width: 100%;
     border-radius: 8px;
-    filter: grayscale(100%);          /* Preto e branco */
-    transition: filter 0.4s ease,      /* Transição da cor */
-                transform 0.3s ease;   /* Transição do zoom */
+    filter: grayscale(100%) brightness(0.8);
+    transition: all 0.4s ease;
 }
 
-.card:hover img {
-    filter: grayscale(0%);            /* Volta para colorido */
-    transform: scale(1.05);           /* Leve zoom ao passar o mouse */
+/* Ativa efeito só em dispositivos com mouse */
+@media (hover: hover) {
+    .card:hover img {
+        filter: grayscale(0%) brightness(1);
+        transform: scale(1.05);
+        box-shadow: 
+            0 0 10px #6a00ff,
+            0 0 20px #6a00ff,
+            0 0 35px #6a00ff;
+    }
 }
 
 .card p {
@@ -138,7 +146,7 @@ footer p {
     <img src="https://canada1.discourse-cdn.com/flex036/uploads/retrogameboards/original/1X/a3bca26d2fcf59bae6dc986a01a46bf9d9006337.png">
 </div>
 
-<h1>Lista de Jogos do Sega Saroo</h1>
+<h1>Lista de Jogos do meu Sega Saroo</h1>
 <div id="counter"></div>
 
 <input type="text" id="searchBar" placeholder="Buscar jogo...">
@@ -367,6 +375,3 @@ loadGames();
 
 </body>
 </html>
-
-
-
