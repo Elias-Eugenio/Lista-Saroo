@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Jogos do Sega Saroo</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #222;
+    color: white;
+    margin: 0;
+    padding: 20px;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo img {
+    width: 400px;
+    max-width: 95%;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 18px; /* diminua esse valor conforme desejar */
+}
+
+#counter {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+#searchBar {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 0 auto 30px auto;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+}
+
+#gameList {
+    display: grid;
+    gap: 15px;
+}
+
+/* 📱 Mobile (até 600px) */
+@media (max-width: 600px) {
+    #gameList {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 📲 Tablet (601px até 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    #gameList {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* 💻 PC (acima de 1025px) */
+@media (min-width: 1025px) {
+    #gameList {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+.card {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.11);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+    filter: grayscale(100%);          /* Preto e branco */
+    transition: filter 0.4s ease,      /* Transição da cor */
+                transform 0.3s ease;   /* Transição do zoom */
+}
+
+.card:hover img {
+    filter: grayscale(0%);            /* Volta para colorido */
+    transform: scale(1.05);           /* Leve zoom ao passar o mouse */
+}
+
+.card p {
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.stars span {
+    cursor: pointer;
+    font-size: 18px;
+    margin: 2px;
+    color: gray;
+}
+
+.stars span.active {
+    color: rgb(192, 5, 5);
+}
+
+footer {
+    text-align: center;
+    padding: 20px 10px;
+    background-color: #111;
+    color: #aaa;
+    font-size: 16px;
+    margin-top: 40px;
+    border-top: 1px solid #333;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="logo">
+    <img src="https://canada1.discourse-cdn.com/flex036/uploads/retrogameboards/original/1X/a3bca26d2fcf59bae6dc986a01a46bf9d9006337.png">
+</div>
+
+<h1>Lista de Jogos do Sega Saroo</h1>
+<div id="counter"></div>
+
+<input type="text" id="searchBar" placeholder="Buscar jogo...">
+<div id="gameList"></div>
+
+<script>
+
+const games = [
+"Astal",
+"Asuka 120% Limited",
+"Batsugun – Tribute Boosted Arrange",
+"Battle Arena Toshinden",
+"Blast Wind",
+"Bokan to Ippatsu",
+"Bulk Slash",
+"Burning Rangers",
+"Castlevania – Symphony of the Night",
+"Chase H.Q. Plus",
+"Choro Q Park",
+"Clockwork Knight",
+"Cotton 2",
+"Cotton Boomerang",
+"Cyberbots – Fullmetal Madness",
+"Dark Savior",
+"Daytona USA",
+"Dead or Alive",
+"DecAthlete",
+"Die Hard Arcade",
+"Dragon Ball Z – Shinbutouden",
+"Dragon Ball Z – The Legend",
+"Dragon Force",
+"Dungeons & Dragons Collection – Tower of",
+"Earthworm Jim 2",
+"Elevator Action Returns",
+"Fighters Megamix",
+"Final Fight Revenge",
+"Fire Pro Gaiden Blazing Tornado",
+"Galaxy Fight",
+"Garou Densetsu 3 – Road to the Final Victo",
+"Gex",
+"Gokujo Parodius Da! Deluxe Pack",
+"Guardian Heroes",
+"Hokuto no Ken",
+"In the Hunt",
+"Keio Flying Squadron 2",
+"Kyuutenkai",
+"Linkle Liver Story",
+"Magic Knight Rayearth",
+"Marvel Super Heroes vs. Street Fighter",
+"Marvel Super Heroes",
+"Mega Man 8",
+"Metal Slug – Super Vehicle-001",
+"Mortal Kombat Trilogy",
+"Mortal Kombat 3 Ultimate",
+"Mortal Kombat II",
+"NBA Jam – Tournament Edition",
+"NiGHTS into Dreams",
+"Panzer Dragoon",
+"Panzer Dragoon II Zwei",
+"Pocket Fighter",
+"Primal Rage",
+"Rabbit",
+"Radiant Silvergun",
+"Rayman",
+"Real Bout Garou Densetsu",
+"Real Bout Garou Densetsu Special",
+"Revolution X – Music Is the Weapon",
+"Road Rash",
+"Rockman X3",
+"Rockman X4",
+"Rockman 8",
+"Sakura Wars Disco 2",
+"Sakura Wars Disco 1",
+"Saturn Bomberman",
+"Saturn Bomberman Fight!!",
+"Sega Ages – OutRun",
+"Sega Ages – Power Drift",
+"Sega Rally Championship",
+"Segata Sanshirou – Shinken Yuugi",
+"Shining Wisdom",
+"Shinobi-X",
+"Silhouette Mirage",
+"Snatcher",
+"Sonic Jam",
+"Sonic R",
+"Sonic Wings Special",
+"Space Jam",
+"Street Fighter Collection (Disc 2)",
+"Street Fighter Zero 3",
+"Street Fighter Collection (Disc 1)",
+"Street Fighter – The Movie",
+"Street Fighter Zero",
+"Street Fighter Zero 2",
+"Street Fighter Zero 2 Dash",
+"Super Puzzle Fighter II",
+"Super Tempo",
+"Tenchi Muyo! Rensa Hitsuyou",
+"The King of Fighters 95",
+"The King of Fighters 96",
+"The King of Fighters 97",
+"Time Bokan Series – Bokan to Ippatsu! Dorc",
+"Tomb Raiders",
+"Tyrush Deppy",
+"Twinkle Star Sprites (Disc 1)",
+"Twinkle Star Sprites (Disc 2)",
+"Vampire Savior",
+"Virtua Fighter 2",
+"Virtua Fighter Kids",
+"Virtua Fighter Remix",
+"Virtua Racing",
+"Waku Waku 7",
+"World Heroes Perfect",
+"WWF WrestleMania – The Arcade Game",
+"X-Men – Children of the Atom",
+"X-Men Arcade",
+"X-Men vs. Street Fighter",
+"Yakyuuken Special"
+];
+
+const gameList = document.getElementById("gameList");
+const searchBar = document.getElementById("searchBar");
+const counter = document.getElementById("counter");
+
+function normalizeName(name) {
+    return name.replace(/[<>:"/\\|?*]/g, '').trim();
+}
+
+function getRating(game) {
+    return localStorage.getItem("rating_" + game) || 0;
+}
+
+function setRating(game, value) {
+    localStorage.setItem("rating_" + game, value);
+}
+
+function createStars(game, container) {
+    const ratingDiv = document.createElement("div");
+    ratingDiv.className = "stars";
+
+    const currentRating = getRating(game);
+
+    for (let i = 1; i <= 5; i++) {
+        const star = document.createElement("span");
+        star.innerHTML = "★";
+
+        if (i <= currentRating) {
+            star.classList.add("active");
+        }
+
+        star.addEventListener("click", () => {
+            setRating(game, i);
+            loadGames();
+        });
+
+        ratingDiv.appendChild(star);
+    }
+
+    container.appendChild(ratingDiv);
+}
+
+function loadGames() {
+    gameList.innerHTML = "";
+    games.sort((a,b) => a.localeCompare(b));
+
+    games.forEach(name => {
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const img = document.createElement("img");
+        img.alt = name;
+        img.loading = "lazy";
+
+        const extensions = ["jpg","png","jfif"];
+        const safeName = normalizeName(name);
+
+        function tryLoad(index = 0) {
+            if (index >= extensions.length) {
+                img.src = "Img/no-image.png";
+                return;
+            }
+            img.src = `Img/${safeName}.${extensions[index]}`;
+            img.onerror = () => tryLoad(index + 1);
+        }
+
+        tryLoad();
+
+        const title = document.createElement("p");
+        title.innerText = name;
+
+        card.appendChild(img);
+        card.appendChild(title);
+        createStars(name, card);
+
+        gameList.appendChild(card);
+    });
+
+    counter.innerText = games.length + " Jogos no Saroo";
+}
+
+searchBar.addEventListener("keyup", function () {
+    const input = searchBar.value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+    let visible = 0;
+
+    cards.forEach(card => {
+        const title = card.querySelector("p").innerText.toLowerCase();
+        if (title.includes(input)) {
+            card.style.display = "block";
+            visible++;
+        } else {
+            card.style.display = "none";
+        }
+    });
+
+    counter.innerText = visible + " Jogos encontrados";
+});
+
+loadGames();
+
+</script>
+
+<footer>
+    <p>© 2026 Lista de Jogos do Sega Saroo. Todos os direitos reservados. Feito por Elias Eugenio</p>
+</footer>
+
+</body>
+</html>
