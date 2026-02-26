@@ -8,133 +8,157 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #222;
-    color: white;
-    margin: 0;
-    padding: 20px;
+body{
+font-family:Arial,sans-serif;
+background:#222;
+color:white;
+margin:0;
+padding:20px;
 }
 
-.logo {
-    text-align: center;
-    margin-bottom: 30px;
+.logo{text-align:center;margin-bottom:30px;}
+.logo img{width:400px;max-width:95%;}
+
+#counter{text-align:center;margin-bottom:15px;font-size:13px;font-style:italic;font-family:'Rajdhani',sans-serif;}
+
+#searchBar{
+width:100%;
+max-width:500px;
+display:block;
+margin:0 auto 10px auto;
+padding:12px;
+border-radius:8px;
+border:none;
 }
 
-.logo img {
-    width: 400px;
-    max-width: 95%;
+.action-buttons{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-bottom:10px;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 18px;
+#addGameBtn,#trashBtn{
+padding:10px 20px;
+border-radius:8px;
+border:none;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
-#counter {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 13px;
-    font-style: italic;
-    font-family: 'Rajdhani', sans-serif;
-    letter-spacing: 1px;
+#addGameBtn{background:#6a00ff;}
+
+#trashBtn{
+background:#b00020;
+transition:0.3s;
 }
 
-#searchBar {
-    width: 100%;
-    max-width: 500px;
-    display: block;
-    margin: 0 auto 30px auto;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: none;
+#trashBtn:hover{
+background:#ff003c;
+box-shadow:0 0 8px #ff003c;
 }
 
-#gameList {
-    display: grid;
-    gap: 15px;
+#gameList{
+display:grid;
+gap:15px;
 }
 
-@media (max-width: 600px) {
-    #gameList { grid-template-columns: repeat(3, 1fr); }
+@media(max-width:600px){#gameList{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:601px) and (max-width:1024px){#gameList{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:1025px){#gameList{grid-template-columns:repeat(8,1fr);}}
+
+.card{
+background:#1a1a1a;
+border-radius:12px;
+padding:10px;
+text-align:center;
+transition:0.3s;
+position:relative;
 }
 
-@media (min-width: 601px) and (max-width: 1024px) {
-    #gameList { grid-template-columns: repeat(4, 1fr); }
+.card img{
+width:100%;
+border-radius:8px;
+filter:grayscale(100%) brightness(0.8);
+transition:0.4s;
 }
 
-@media (min-width: 1025px) {
-    #gameList { grid-template-columns: repeat(8, 1fr); }
+.card:hover img{
+filter:grayscale(0%) brightness(1);
+transform:scale(1.05);
+box-shadow:0 0 15px #6a00ff;
 }
 
-.card {
-    background-color: #1a1a1a;
-    border-radius: 12px;
-    padding: 10px;
-    text-align: center;
-    transition: 0.3s;
+.delete-btn{
+position:absolute;
+top:6px;
+right:6px;
+background:#b00020;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+padding:4px 6px;
+font-size:12px;
+transition:0.3s;
 }
 
-@media (hover: hover) {
-.card:hover { transform: scale(1.11); }
+.delete-btn:hover{
+background:#ff003c;
+box-shadow:0 0 8px #ff003c;
+transform:scale(1.1);
 }
 
-.card img {
-    width: 100%;
-    border-radius: 8px;
-    filter: grayscale(100%) brightness(0.8);
-    transition: all 0.4s ease;
+.stars span{
+cursor:pointer;
+font-size:18px;
+margin:2px;
+color:#555;
 }
 
-@media (hover: hover) {
-.card:hover img {
-    filter: grayscale(0%) brightness(1);
-    transform: scale(1.05);
-    box-shadow: 0 0 15px #6a00ff;
-}
-}
+.stars span.active{color:#ff003c;}
 
-.card p {
-    font-size: 12px;
-    margin-top: 8px;
-    font-family: 'Rajdhani', sans-serif;
+.rating-number{
+font-size:10px;
+opacity:0.7;
 }
 
-.stars span {
-    cursor: pointer;
-    font-size: 18px;
-    margin: 2px;    
-    color: #555;
-    transition: 0.2s;
+.fade-out{
+opacity:0;
+transform:scale(0.8);
+transition:0.4s ease;
 }
 
-.stars span:hover { transform: scale(1.2); }
-
-.stars span.active { color: #ff003c; }
-
-.rating-number {
-    font-size: 10px;
-    opacity: 0.7;
-    margin-top: 4px;
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
 }
 
-footer {
-    text-align: center;
-    padding: 20px 10px;
-    background-color: #111;
-    color: #aaa;
-    font-size: 16px;
-    margin-top: 40px;
-    border-top: 1px solid #333;
+.modal-content{
+background:#1a1a1a;
+padding:25px;
+border-radius:12px;
+width:300px;
+text-align:center;
+}
+
+.modal-content input{
+width:100%;
+padding:8px;
+margin:10px 0;
+border-radius:6px;
+border:none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Áudios movidos para o body -->
 <audio id="selectSound" src="Sound/Select.mp3"></audio>
 <audio id="starSound" src="Sound/Star.mp3"></audio>
 
@@ -145,11 +169,38 @@ footer {
 <div id="counter"></div>
 
 <input type="text" id="searchBar" placeholder="Buscar jogo...">
+
+<div class="action-buttons">
+<button id="addGameBtn">➕ Novo Jogo</button>
+<button id="trashBtn">♻ Lixeira</button>
+</div>
+
 <div id="gameList"></div>
+
+<!-- Modal Novo Jogo -->
+<div id="gameModal" class="modal">
+<div class="modal-content">
+<h3>Novo Jogo</h3>
+<input type="text" id="newGameInput" placeholder="Nome do jogo">
+<div style="display:flex;gap:10px;justify-content:center;">
+<button id="saveGameBtn">Salvar</button>
+<button id="cancelGameBtn" style="background:#555;">Cancelar</button>
+</div>
+</div>
+</div>
+
+<!-- Modal Lixeira -->
+<div id="trashModal" class="modal">
+<div class="modal-content">
+<h3>♻ Lixeira</h3>
+<div id="trashList"></div>
+<button id="closeTrashBtn" style="background:#555;">Fechar</button>
+</div>
+</div>
 
 <script>
 
-const games = [
+let games = [
 "Astal",
 "Asuka Limited",
 "Batsugun – Tribute Boosted Arrange",
@@ -261,18 +312,20 @@ const games = [
 "Yakyuuken Special"
 ];
 
-const selectSound = document.getElementById("selectSound");
-const starSound = document.getElementById("starSound");
-const gameList = document.getElementById("gameList");
-const searchBar = document.getElementById("searchBar");
-const counter = document.getElementById("counter");
+let savedGames=JSON.parse(localStorage.getItem("customGames"))||[];
+savedGames.forEach(g=>{if(!games.includes(g))games.push(g);});
+
+const selectSound=document.getElementById("selectSound");
+const starSound=document.getElementById("starSound");
+const gameList=document.getElementById("gameList");
+const counter=document.getElementById("counter");
 
 function normalizeName(name){
-return name.replace(/[<>:"/\\|?*]/g,'').trim();
+return name.replace(/[<>:\"/\\|?*]/g,'').trim();
 }
 
 function getRating(game){
-return parseInt(localStorage.getItem("rating_"+game)) || 0;
+return parseInt(localStorage.getItem("rating_"+game))||0;
 }
 
 function setRating(game,value){
@@ -280,49 +333,38 @@ localStorage.setItem("rating_"+game,value);
 }
 
 function createStars(game,container){
-
-const ratingDiv=document.createElement("div");
-ratingDiv.className="stars";
-
-let currentRating=getRating(game);
+const div=document.createElement("div");
+div.className="stars";
+let rating=getRating(game);
 
 for(let i=1;i<=5;i++){
 const star=document.createElement("span");
 star.innerHTML="★";
+if(i<=rating)star.classList.add("active");
 
-if(i<=currentRating){
-star.classList.add("active");
-}
-
-star.addEventListener("click",(event)=>{
-event.stopPropagation();
-
-currentRating=i;
+star.onclick=(e)=>{
+e.stopPropagation();
+rating=i;
 setRating(game,i);
 starSound.currentTime=0;
 starSound.play();
-
-updateStars();
-});
-
-ratingDiv.appendChild(star);
+update();
+};
+div.appendChild(star);
 }
 
-const ratingNumber=document.createElement("div");
-ratingNumber.className="rating-number";
+const num=document.createElement("div");
+num.className="rating-number";
 
-function updateStars(){
-const stars=ratingDiv.querySelectorAll("span");
-stars.forEach((s,index)=>{
-s.classList.toggle("active",index<currentRating);
+function update(){
+div.querySelectorAll("span").forEach((s,i)=>{
+s.classList.toggle("active",i<rating);
 });
-ratingNumber.innerText=currentRating>0?currentRating+"/5":"Sem nota";
+num.innerText=rating?rating+"/5":"Sem nota";
 }
-
-updateStars();
-
-container.appendChild(ratingDiv);
-container.appendChild(ratingNumber);
+update();
+container.appendChild(div);
+container.appendChild(num);
 }
 
 function loadGames(){
@@ -330,73 +372,135 @@ gameList.innerHTML="";
 games.sort((a,b)=>a.localeCompare(b));
 
 games.forEach(name=>{
-
 const card=document.createElement("div");
 card.className="card";
 
-card.addEventListener("click",()=>{
+card.onclick=()=>{
 selectSound.currentTime=0;
 selectSound.play();
-});
+};
 
 const img=document.createElement("img");
-img.alt=name;
 img.loading="lazy";
 
-const extensions=["jpg","png","jfif"];
-const safeName=normalizeName(name);
+const ext=["jpg","png","jfif"];
+const safe=normalizeName(name);
 
-function tryLoad(index=0){
-if(index>=extensions.length){
-img.src="Img/no-image.png";
-return;
+function tryLoad(i=0){
+if(i>=ext.length){img.src="Img/no-image.png";return;}
+img.src=`Img/${safe}.${ext[i]}`;
+img.onerror=()=>tryLoad(i+1);
 }
-img.src=`Img/${safeName}.${extensions[index]}`;
-img.onerror=()=>tryLoad(index+1);
-}
-
 tryLoad();
 
-const title=document.createElement("p");
-title.innerText="💿 "+name;
+const p=document.createElement("p");
+p.innerText="💿 "+name;
 
 card.appendChild(img);
-card.appendChild(title);
-createStars(name,card);
+card.appendChild(p);
 
+const del=document.createElement("button");
+del.innerText="🗑";
+del.className="delete-btn";
+del.onclick=(e)=>{
+e.stopPropagation();
+deleteGame(name,card);
+};
+card.appendChild(del);
+
+createStars(name,card);
 gameList.appendChild(card);
 });
 
-counter.innerText=games.length+" Jogos no Saroo de 64 GB";
+counter.innerText=games.length+" Jogos no Saroo";
 }
 
-searchBar.addEventListener("keyup",function(){
-const input=searchBar.value.toLowerCase();
-const cards=document.querySelectorAll(".card");
-let visible=0;
+function deleteGame(name,card){
+if(!confirm("Excluir '"+name+"'?"))return;
 
-cards.forEach(card=>{
-const title=card.querySelector("p").innerText.toLowerCase();
-if(title.includes(input)){
-card.style.display="block";
-visible++;
+card.classList.add("fade-out");
+
+setTimeout(()=>{
+games=games.filter(g=>g!==name);
+
+let trash=JSON.parse(localStorage.getItem("trashGames"))||[];
+trash.push(name);
+localStorage.setItem("trashGames",JSON.stringify(trash));
+
+loadGames();
+},400);
+}
+
+function restoreGame(name){
+let trash=JSON.parse(localStorage.getItem("trashGames"))||[];
+trash=trash.filter(g=>g!==name);
+localStorage.setItem("trashGames",JSON.stringify(trash));
+
+games.push(name);
+loadGames();
+openTrash();
+}
+
+function openTrash(){
+const list=document.getElementById("trashList");
+list.innerHTML="";
+let trash=JSON.parse(localStorage.getItem("trashGames"))||[];
+
+if(trash.length===0){
+list.innerHTML="<p>Lixeira vazia</p>";
 }else{
-card.style.display="none";
-}
-});
+trash.forEach(g=>{
+const div=document.createElement("div");
+div.style.margin="5px";
 
-counter.innerText=input===""?
-games.length+" Jogos no Saroo de 64 GB":
-visible+" Jogos encontrados";
+const span=document.createElement("span");
+span.innerText=g;
+
+const btn=document.createElement("button");
+btn.innerText="Restaurar";
+btn.style.marginLeft="10px";
+btn.onclick=()=>restoreGame(g);
+
+div.appendChild(span);
+div.appendChild(btn);
+list.appendChild(div);
 });
+}
+
+document.getElementById("trashModal").style.display="flex";
+}
+
+document.getElementById("trashBtn").onclick=openTrash;
+document.getElementById("closeTrashBtn").onclick=()=>document.getElementById("trashModal").style.display="none";
+
+document.getElementById("addGameBtn").onclick=()=>document.getElementById("gameModal").style.display="flex";
+document.getElementById("cancelGameBtn").onclick=()=>document.getElementById("gameModal").style.display="none";
+
+document.getElementById("saveGameBtn").onclick=saveNewGame;
+document.getElementById("newGameInput").addEventListener("keypress",e=>{if(e.key==="Enter")saveNewGame();});
+
+function saveNewGame(){
+const val=document.getElementById("newGameInput").value.trim();
+if(!val||games.includes(val))return;
+
+games.push(val);
+
+let custom=JSON.parse(localStorage.getItem("customGames"))||[];
+custom.push(val);
+localStorage.setItem("customGames",JSON.stringify(custom));
+
+selectSound.currentTime=0;
+selectSound.play();
+
+document.getElementById("newGameInput").value="";
+document.getElementById("gameModal").style.display="none";
+
+loadGames();
+}
 
 loadGames();
 
 </script>
-
-<footer>
-<p>© 2026 Lista de Jogos do Sega Saroo. Todos os direitos reservados. Feito por Elias Eugenio</p>
-</footer>
 
 </body>
 </html>
