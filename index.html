@@ -386,7 +386,7 @@ const ext=["jpg","png","jfif"];
 const safe=normalizeName(name);
 
 function tryLoad(i=0){
-if(i>=ext.length){img.src="Img/no-image.jpg";return;}
+if(i>=ext.length){img.src="Img/nocover.jpg";return;}
 img.src=`Img/${safe}.${ext[i]}`;
 img.onerror=()=>tryLoad(i+1);
 }
