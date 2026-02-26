@@ -6,8 +6,6 @@
 <title>Lista de Jogos do Sega Saroo</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
-<audio id="selectSound" src="Sound/Select.mp3"></audio>
-<audio id="starSound" src="Sound/Star.mp3"></audio>
 
 <style>
 body {
@@ -31,7 +29,7 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 10px;
-    font-size: 18px; /* diminua esse valor conforme desejar */
+    font-size: 18px;
 }
 
 #counter {
@@ -40,7 +38,6 @@ h1 {
     font-size: 13px;
     font-style: italic;
     font-family: 'Rajdhani', sans-serif;
-    color: #ffffff;
     letter-spacing: 1px;
 }
 
@@ -60,25 +57,16 @@ h1 {
     gap: 15px;
 }
 
-/* 📱 Mobile (até 600px) */
 @media (max-width: 600px) {
-    #gameList {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    #gameList { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* 📲 Tablet (601px até 1024px) */
 @media (min-width: 601px) and (max-width: 1024px) {
-    #gameList {
-        grid-template-columns: repeat(4, 1fr);
-    }
+    #gameList { grid-template-columns: repeat(4, 1fr); }
 }
 
-/* 💻 PC (acima de 1025px) */
 @media (min-width: 1025px) {
-    #gameList {
-        grid-template-columns: repeat(8, 1fr);
-    }
+    #gameList { grid-template-columns: repeat(8, 1fr); }
 }
 
 .card {
@@ -90,9 +78,7 @@ h1 {
 }
 
 @media (hover: hover) {
-  .card:hover {
-      transform: scale(1.11);
-  }
+.card:hover { transform: scale(1.11); }
 }
 
 .card img {
@@ -102,25 +88,18 @@ h1 {
     transition: all 0.4s ease;
 }
 
-/* Ativa efeito só em dispositivos com mouse */
 @media (hover: hover) {
-    .card:hover img {
-        filter: grayscale(0%) brightness(1);
-        transform: scale(1.05);
-        box-shadow: 
-            0 0 10px #6a00ff,
-            0 0 20px #6a00ff,
-            0 0 35px #6a00ff;
-    }
+.card:hover img {
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #6a00ff;
+}
 }
 
 .card p {
     font-size: 12px;
     margin-top: 8px;
     font-family: 'Rajdhani', sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    color: #ffffff;
 }
 
 .stars span {
@@ -131,12 +110,14 @@ h1 {
     transition: 0.2s;
 }
 
-.stars span:hover {
-    transform: scale(1.2);
-}
+.stars span:hover { transform: scale(1.2); }
 
-.stars span.active {
-    color: #ff003c;
+.stars span.active { color: #ff003c; }
+
+.rating-number {
+    font-size: 10px;
+    opacity: 0.7;
+    margin-top: 4px;
 }
 
 footer {
@@ -148,18 +129,17 @@ footer {
     margin-top: 40px;
     border-top: 1px solid #333;
 }
-
-footer p {
-    margin: 5px 0;
-}
-
 </style>
 </head>
 
 <body>
 
+<!-- Áudios movidos para o body -->
+<audio id="selectSound" src="Sound/Select.mp3"></audio>
+<audio id="starSound" src="Sound/Star.mp3"></audio>
+
 <div class="logo">
-    <img src="https://canada1.discourse-cdn.com/flex036/uploads/retrogameboards/original/1X/a3bca26d2fcf59bae6dc986a01a46bf9d9006337.png">
+<img src="https://canada1.discourse-cdn.com/flex036/uploads/retrogameboards/original/1X/a3bca26d2fcf59bae6dc986a01a46bf9d9006337.png">
 </div>
 
 <div id="counter"></div>
@@ -226,7 +206,6 @@ const games = [
 "Rabbit",
 "Radiant Silvergun",
 "Rayman",
-"Resident Evil",   
 "Real Bout Garou Densetsu",
 "Real Bout Garou Densetsu Special",
 "Revolution X – Music Is the Weapon",
@@ -282,133 +261,133 @@ const games = [
 "Yakyuuken Special"
 ];
 
-// Sons do site
 const selectSound = document.getElementById("selectSound");
 const starSound = document.getElementById("starSound");
-
 const gameList = document.getElementById("gameList");
 const searchBar = document.getElementById("searchBar");
 const counter = document.getElementById("counter");
 
-function normalizeName(name) {
-    return name.replace(/[<>:"/\\|?*]/g, '').trim();
+function normalizeName(name){
+return name.replace(/[<>:"/\\|?*]/g,'').trim();
 }
 
-function getRating(game) {
-    return localStorage.getItem("rating_" + game) || 0;
+function getRating(game){
+return parseInt(localStorage.getItem("rating_"+game)) || 0;
 }
 
-function setRating(game, value) {
-    localStorage.setItem("rating_" + game, value);
+function setRating(game,value){
+localStorage.setItem("rating_"+game,value);
 }
 
-function createStars(game, container) {
+function createStars(game,container){
 
-    const ratingDiv = document.createElement("div");
-    ratingDiv.className = "stars";
+const ratingDiv=document.createElement("div");
+ratingDiv.className="stars";
 
-    const currentRating = getRating(game);
+let currentRating=getRating(game);
 
-    for (let i = 1; i <= 5; i++) {
-        const star = document.createElement("span");
-        star.innerHTML = "★";
+for(let i=1;i<=5;i++){
+const star=document.createElement("span");
+star.innerHTML="★";
 
-        if (i <= currentRating) {
-            star.classList.add("active");
-        }
-
-        star.addEventListener("click", () => {
-            setRating(game, i);
-            loadGames();
-            starSound.currentTime = 0;
-            starSound.play();
-        });
-
-        ratingDiv.appendChild(star);
-    }
-
-    // 🎯 Nota numérica
-    const ratingNumber = document.createElement("div");
-    ratingNumber.style.fontSize = "10px";
-    ratingNumber.style.opacity = "0.7";
-    ratingNumber.style.marginTop = "4px";
-
-    if (currentRating > 0) {
-        ratingNumber.innerText = currentRating + "/5";
-    } else {
-        ratingNumber.innerText = "Sem nota";
-    }
-
-    ratingDiv.appendChild(ratingNumber);
-
-    container.appendChild(ratingDiv);
+if(i<=currentRating){
+star.classList.add("active");
 }
 
-function loadGames() {
-    gameList.innerHTML = "";
-    games.sort((a,b) => a.localeCompare(b));
+star.addEventListener("click",(event)=>{
+event.stopPropagation();
 
-    games.forEach(name => {
+currentRating=i;
+setRating(game,i);
+starSound.currentTime=0;
+starSound.play();
 
-        const card = document.createElement("div");
-        card.className = "card";
-
-        card.addEventListener("click", () => {
-    selectSound.currentTime = 0; // reinicia o som
-    selectSound.play();
+updateStars();
 });
 
-        const img = document.createElement("img");
-        img.alt = name;
-        img.loading = "lazy";
-
-        const extensions = ["jpg","png","jfif"];
-        const safeName = normalizeName(name);
-
-        function tryLoad(index = 0) {
-            if (index >= extensions.length) {
-                img.src = "Img/no-image.png";
-                return;
-            }
-            img.src = `Img/${safeName}.${extensions[index]}`;
-            img.onerror = () => tryLoad(index + 1);
-        }
-
-        tryLoad();
-
-       const title = document.createElement("p");
-title.innerText = "💿 " + name;
-
-        card.appendChild(img);
-        card.appendChild(title);
-        createStars(name, card);
-
-        gameList.appendChild(card);
-    });
-
-    counter.innerText = games.length + " Jogos no Saroo de 64 GB";
+ratingDiv.appendChild(star);
 }
 
-searchBar.addEventListener("keyup", function () {
-    const input = searchBar.value.toLowerCase();
-    const cards = document.querySelectorAll(".card");
-    let visible = 0;
+const ratingNumber=document.createElement("div");
+ratingNumber.className="rating-number";
 
-    cards.forEach(card => {
-        const title = card.querySelector("p").innerText.toLowerCase();
-        if (title.includes(input)) {
-            card.style.display = "block";
-            visible++;
-        } else {
-            card.style.display = "none";
-        }
-    });
-
-    if (input === "") {
-    counter.innerText = games.length + " Jogos no Saroo";
-} else {
-    counter.innerText = visible + " Jogos encontrados";
+function updateStars(){
+const stars=ratingDiv.querySelectorAll("span");
+stars.forEach((s,index)=>{
+s.classList.toggle("active",index<currentRating);
+});
+ratingNumber.innerText=currentRating>0?currentRating+"/5":"Sem nota";
 }
+
+updateStars();
+
+container.appendChild(ratingDiv);
+container.appendChild(ratingNumber);
+}
+
+function loadGames(){
+gameList.innerHTML="";
+games.sort((a,b)=>a.localeCompare(b));
+
+games.forEach(name=>{
+
+const card=document.createElement("div");
+card.className="card";
+
+card.addEventListener("click",()=>{
+selectSound.currentTime=0;
+selectSound.play();
+});
+
+const img=document.createElement("img");
+img.alt=name;
+img.loading="lazy";
+
+const extensions=["jpg","png","jfif"];
+const safeName=normalizeName(name);
+
+function tryLoad(index=0){
+if(index>=extensions.length){
+img.src="Img/no-image.png";
+return;
+}
+img.src=`Img/${safeName}.${extensions[index]}`;
+img.onerror=()=>tryLoad(index+1);
+}
+
+tryLoad();
+
+const title=document.createElement("p");
+title.innerText="💿 "+name;
+
+card.appendChild(img);
+card.appendChild(title);
+createStars(name,card);
+
+gameList.appendChild(card);
+});
+
+counter.innerText=games.length+" Jogos no Saroo de 64 GB";
+}
+
+searchBar.addEventListener("keyup",function(){
+const input=searchBar.value.toLowerCase();
+const cards=document.querySelectorAll(".card");
+let visible=0;
+
+cards.forEach(card=>{
+const title=card.querySelector("p").innerText.toLowerCase();
+if(title.includes(input)){
+card.style.display="block";
+visible++;
+}else{
+card.style.display="none";
+}
+});
+
+counter.innerText=input===""?
+games.length+" Jogos no Saroo de 64 GB":
+visible+" Jogos encontrados";
 });
 
 loadGames();
@@ -416,10 +395,8 @@ loadGames();
 </script>
 
 <footer>
-    <p>© 2026 Lista de Jogos do Sega Saroo. Todos os direitos reservados. Feito por Elias Eugenio</p>
+<p>© 2026 Lista de Jogos do Sega Saroo. Todos os direitos reservados. Feito por Elias Eugenio</p>
 </footer>
 
 </body>
 </html>
-
-
