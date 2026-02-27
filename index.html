@@ -121,6 +121,7 @@ body{
   transition:0.4s ease;
 }
 
+/* Modal geral */
 .modal{
   display:none;
   position:fixed;
@@ -128,6 +129,7 @@ body{
   background:rgba(0,0,0,0.8);
   justify-content:center;
   align-items:center;
+  z-index:9999;
 }
 
 .modal-content{
@@ -145,6 +147,29 @@ body{
   border-radius:6px;
   border:none;
 }
+
+/* Modal screenshot / detalhes */
+#screenshotModal .modal-content{
+  width:auto;
+  max-width:90%;
+  max-height:90%;
+}
+#screenshotModal img{
+  width:100%;
+  height:auto;
+  border-radius:12px;
+  margin-bottom:10px;
+}
+#screenshotModal p{
+  margin:3px 0;
+  font-size:14px;
+}
+
+/* Animações screenshot */
+@keyframes zoomIn {0%{transform:scale(0.5);opacity:0;}100%{transform:scale(1);opacity:1;}}
+@keyframes zoomOut {0%{transform:scale(1);opacity:1;}100%{transform:scale(0.5);opacity:0;}}
+#screenshotModal.show{display:flex; animation:zoomIn 0.4s ease forwards;}
+#screenshotModal.hide{animation:zoomOut 0.3s forwards;}
 </style>
 </head>
 <body>
@@ -157,7 +182,6 @@ body{
 </div>
 
 <div id="counter"></div>
-
 <input type="text" id="searchBar" placeholder="Buscar jogo...">
 
 <div class="action-buttons">
@@ -188,47 +212,41 @@ body{
   </div>
 </div>
 
-<script>
-const baseGames=[
-"Astal","Asuka Limited","Batsugun – Tribute Boosted Arrange","Battle Arena Toshinden","Blast Wind",
-"Bokan to Ippatsu","Bulk Slash","Burning Rangers","Castlevania – Symphony of the Night","Chase H.Q. Plus",
-"Choro Q Park","Clockwork Knight","Cotton 2","Cotton Boomerang","Cyberbots – Fullmetal Madness",
-"Dark Savior","Daytona USA","Dead or Alive","DecAthlete","Die Hard Arcade",
-"Dragon Ball Z – Shinbutouden","Dragon Ball Z – The Legend","Dragon Force","Dungeons & Dragons Collection – Tower of",
-"Earthworm Jim 2","Elevator Action Returns","Fighters Megamix","Final Fight Revenge","Fire Pro Gaiden Blazing Tornado",
-"Galaxy Fight","Garou Densetsu 3 – Road to the Final Victo","Gex","Gokujo Parodius Da! Deluxe Pack","Guardian Heroes",
-"Hokuto no Ken","In the Hunt","Keio Flying Squadron 2","Kyuutenkai","Linkle Liver Story","Magic Knight Rayearth",
-"Marvel Super Heroes vs. Street Fighter","Marvel Super Heroes","Mega Man 8","Metal Slug – Super Vehicle-001",
-"Mortal Kombat Trilogy","Mortal Kombat 3 Ultimate","Mortal Kombat II","NBA Jam – Tournament Edition","NiGHTS into Dreams",
-"Panzer Dragoon","Panzer Dragoon II Zwei","Pocket Fighter","Primal Rage","Rabbit","Radiant Silvergun","Rayman",
-"Real Bout Garou Densetsu","Real Bout Garou Densetsu Special","Revolution X – Music Is the Weapon","Road Rash",
-"Rockman X3","Rockman X4","Rockman 8","Sakura Wars Disco 2","Sakura Wars Disco 1","Saturn Bomberman",
-"Saturn Bomberman Fight!!","Sega Ages – OutRun","Sega Ages – Power Drift","Sega Rally Championship",
-"Segata Sanshirou – Shinken Yuugi","Shining Wisdom","Shinobi-X","Silhouette Mirage","Snatcher","Sonic Jam",
-"Sonic R","Sonic Wings Special","Space Jam","Street Fighter Collection (Disc 2)","Street Fighter Zero 3",
-"Street Fighter Collection (Disc 1)","Street Fighter – The Movie","Street Fighter Zero","Street Fighter Zero 2",
-"Street Fighter Zero 2 Dash","Super Puzzle Fighter II","Super Tempo","Tenchi Muyo! Rensa Hitsuyou",
-"The King of Fighters 95","The King of Fighters 96","The King of Fighters 97","Time Bokan Series – Bokan to Ippatsu! Dorc",
-"Tomb Raiders","Tyrush Deppy","Twinkle Star Sprites (Disc 1)","Twinkle Star Sprites (Disc 2)",
-"Vampire Savior","Virtua Fighter 2","Virtua Fighter Kids","Virtua Fighter Remix","Virtua Racing","Waku Waku 7",
-"World Heroes Perfect","WWF WrestleMania – The Arcade Game","X-Men – Children of the Atom",
-"X-Men Arcade","X-Men vs. Street Fighter","Yakyuuken Special"
-];
+<!-- Modal Screenshot / Detalhes -->
+<div id="screenshotModal" class="modal">
+  <div class="modal-content">
+    <h3 id="screenshotTitle"></h3>
+    <img id="screenshotImg" src="">
+    <p id="screenshotGenre"></p>
+    <p id="screenshotYear"></p>
+    <button id="closeScreenshotBtn" style="margin-top:10px; background:#555; color:white; padding:8px; border:none; border-radius:6px;">Fechar</button>
+  </div>
+</div>
 
+<script>
+// Base e active games
+const baseGames=[
+  "Astal","Burning Rangers","Sonic Jam" // coloque os outros aqui
+];
 let activeGames = JSON.parse(localStorage.getItem("activeGames")) || [...baseGames];
 let trashGames = JSON.parse(localStorage.getItem("trashGames")) || [];
+
+// Dados dos jogos
+const gameInfo = {
+  "Astal": { genre: "Plataforma", year: 1995 },
+  "Burning Rangers": { genre: "Ação / Shooter", year: 1998 },
+  "Sonic Jam": { genre: "Plataforma", year: 1997 },
+  // adicionar mais detalhes aqui
+};
 
 const selectSound=document.getElementById("selectSound");
 const starSound=document.getElementById("starSound");
 const gameList=document.getElementById("gameList");
 const counter=document.getElementById("counter");
 
-// Normalize function
 function normalizeName(name){
   return name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[<>:\"/\\|?*]/g,'').trim();
 }
-
-// Ratings
 function getRating(game){return parseInt(localStorage.getItem("rating_"+game))||0;}
 function setRating(game,value){localStorage.setItem("rating_"+game,value);}
 
@@ -253,7 +271,6 @@ function createStars(game,container){
 
   const num=document.createElement("div");
   num.className="rating-number";
-
   function updateStars(){
     div.querySelectorAll("span").forEach((s,i)=>s.classList.toggle("active",i<rating));
     num.innerText=rating?rating+"/5":"Sem nota";
@@ -263,7 +280,6 @@ function createStars(game,container){
   container.appendChild(num);
 }
 
-// Load games
 function loadGames(){
   gameList.innerHTML="";
   const filteredGames = activeGames.filter(g=>!trashGames.includes(g));
@@ -278,7 +294,7 @@ function loadGames(){
     const ext=["jpg","png","jfif"];
     const safe=normalizeName(name);
     function tryLoad(i=0){
-      if(i>=ext.length){img.src="Img/nocover.jpg"; return;}
+      if(i>=ext.length){img.src="Img/nocover.jpg";return;}
       img.src=`Img/${safe}.${ext[i]}`;
       img.onerror=()=>tryLoad(i+1);
     }
@@ -296,24 +312,33 @@ function loadGames(){
 
     card.appendChild(img); card.appendChild(p); card.appendChild(del);
     createStars(name,card);
+
+    // Duplo clique / toque para screenshot
+    card.ondblclick = ()=> openScreenshot(name);
+    let lastTap=0;
+    card.addEventListener("touchend", function(e){
+      const currentTime=new Date().getTime();
+      const tapLength=currentTime-lastTap;
+      if(tapLength<500 && tapLength>0){ openScreenshot(name); e.preventDefault(); }
+      lastTap=currentTime;
+    });
+
     gameList.appendChild(card);
   });
 
   counter.innerText=filteredGames.length+" Jogos no Saroo De 64 GB";
 }
 
-// Delete game
 function deleteGame(name){
   if(!confirm("Excluir '"+name+"'?")) return;
   trashGames.push(name);
-  trashGames = [...new Set(trashGames)];
+  trashGames=[...new Set(trashGames)];
   localStorage.setItem("trashGames",JSON.stringify(trashGames));
-  activeGames = activeGames.filter(g=>g!==name);
+  activeGames=activeGames.filter(g=>g!==name);
   localStorage.setItem("activeGames",JSON.stringify(activeGames));
   loadGames();
 }
 
-// Restore game
 function restoreGame(name){
   trashGames = trashGames.filter(g=>g!==name);
   localStorage.setItem("trashGames",JSON.stringify(trashGames));
@@ -323,7 +348,6 @@ function restoreGame(name){
   openTrash();
 }
 
-// Trash modal
 function openTrash(){
   const list=document.getElementById("trashList");
   list.innerHTML="";
@@ -340,7 +364,6 @@ function openTrash(){
   document.getElementById("trashModal").style.display="flex";
 }
 
-// New Game
 function saveNewGame(){
   const val=document.getElementById("newGameInput").value.trim();
   if(!val || activeGames.includes(val)) return;
@@ -352,15 +375,61 @@ function saveNewGame(){
   loadGames();
 }
 
-// Event listeners
+// Abrir screenshot com detalhes
+function openScreenshot(gameName){
+  const img=document.getElementById("screenshotImg");
+  const title=document.getElementById("screenshotTitle");
+  const genre=document.getElementById("screenshotGenre");
+  const year=document.getElementById("screenshotYear");
+
+  const safe=normalizeName(gameName);
+  const ext=["jpg","png","jfif"];
+  function tryLoad(i=0){
+    if(i>=ext.length){ img.src="Img/nocover.jpg"; return; }
+    img.src=`Screenshots/${safe}.${ext[i]}`;
+    img.onerror=()=>tryLoad(i+1);
+  }
+  tryLoad();
+
+  // Preencher informações
+  title.innerText = gameName;
+  genre.innerText = "Gênero: " + (gameInfo[gameName]?.genre || "Desconhecido");
+  year.innerText = "Ano: " + (gameInfo[gameName]?.year || "Desconhecido");
+
+  const modal=document.getElementById("screenshotModal");
+  modal.style.display="flex";
+  modal.classList.remove("hide"); modal.classList.remove("show");
+  void modal.offsetWidth;
+  modal.classList.add("show");
+}
+
+// Fechar screenshot
+document.getElementById("closeScreenshotBtn").onclick = function(){
+  const modal=document.getElementById("screenshotModal");
+  modal.classList.remove("show");
+  modal.classList.add("hide");
+  setTimeout(()=>{ modal.style.display="none"; modal.classList.remove("hide"); },300);
+}
+
+// Fechar screenshot com ESC
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape"){
+    const modal = document.getElementById("screenshotModal");
+    if(modal.style.display === "flex"){
+      modal.classList.remove("show");
+      modal.classList.add("hide");
+      setTimeout(() => { modal.style.display="none"; modal.classList.remove("hide"); }, 300);
+    }
+  }
+});
+
+// Eventos
 document.getElementById("trashBtn").onclick=openTrash;
 document.getElementById("closeTrashBtn").onclick=()=>document.getElementById("trashModal").style.display="none";
 document.getElementById("addGameBtn").onclick=()=>document.getElementById("gameModal").style.display="flex";
 document.getElementById("cancelGameBtn").onclick=()=>document.getElementById("gameModal").style.display="none";
 document.getElementById("saveGameBtn").onclick=saveNewGame;
 document.getElementById("newGameInput").addEventListener("keypress",e=>{if(e.key==="Enter") saveNewGame();});
-
-// Search functionality
 document.getElementById("searchBar").addEventListener("input",function(){
   const term=this.value.toLowerCase();
   document.querySelectorAll(".card").forEach(card=>{
@@ -368,9 +437,8 @@ document.getElementById("searchBar").addEventListener("input",function(){
   });
 });
 
-// Initial load
+// Inicializar
 loadGames();
-
 </script>
 </body>
 </html>
