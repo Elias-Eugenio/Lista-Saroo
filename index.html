@@ -150,15 +150,18 @@ body{
 
 /* Modal screenshot / detalhes */
 #screenshotModal .modal-content{
-  width:auto;
-  max-width:90%;
-  max-height:90%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 #screenshotModal img{
-  width:100%;
-  height:auto;
+  width:320px;
+  height:224px;
+  object-fit:cover; /* mantém preenchimento sem distorcer */
   border-radius:12px;
   margin-bottom:10px;
+  image-rendering: pixelated; /* deixa estilo retrô mais nítido */
+  
 }
 #screenshotModal p{
   margin:3px 0;
@@ -613,3 +616,4 @@ loadGames();
 </script>
 </body>
 </html>
+
