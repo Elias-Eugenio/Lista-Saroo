@@ -9,161 +9,151 @@
 
 <style>
 body{
-font-family:'Rajdhani',sans-serif;
-background:#222;
-color:white;
-margin:0;
-padding:20px;
+  font-family:'Rajdhani',sans-serif;
+  background:#222;
+  color:white;
+  margin:0;
+  padding:20px;
 }
 
 .logo{text-align:center;margin-bottom:30px;}
 .logo img{width:400px;max-width:95%;}
 
-#counter{text-align:center;margin-bottom:15px;font-size:13px;font-style:italic;font-family:'Rajdhani',sans-serif;}
+#counter{text-align:center;margin-bottom:15px;font-size:13px;font-style:italic;}
 
 #searchBar{
-width:100%;
-max-width:500px;
-display:block;
-margin:0 auto 10px auto;
-padding:12px;
-border-radius:8px;
-border:none;
+  width:100%;
+  max-width:500px;
+  display:block;
+  margin:0 auto 10px auto;
+  padding:12px;
+  border-radius:8px;
+  border:none;
 }
 
 .action-buttons{
-display:flex;
-justify-content:center;
-gap:10px;
-margin-bottom:10px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:10px;
 }
 
 #addGameBtn,#trashBtn{
-padding:10px 20px;
-border-radius:8px;
-border:none;
-color:white;
-font-weight:bold;
-cursor:pointer;
+  padding:10px 20px;
+  border-radius:8px;
+  border:none;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 #addGameBtn{background:#6a00ff;}
-
 #trashBtn{
-background:#b00020;
-transition:0.3s;
+  background:#b00020;
+  transition:0.3s;
 }
-
-#trashBtn:hover{
-background:#ff003c;
-}
+#trashBtn:hover{background:#ff003c;}
 
 #gameList{
-display:grid;
-gap:15px;
+  display:grid;
+  gap:15px;
 }
-
 @media(max-width:600px){#gameList{grid-template-columns:repeat(3,1fr);}}
 @media(min-width:601px) and (max-width:1024px){#gameList{grid-template-columns:repeat(4,1fr);}}
 @media(min-width:1025px){#gameList{grid-template-columns:repeat(8,1fr);}}
 
 .card{
-background:#1a1a1a;
-border-radius:12px;
-padding:10px;
-text-align:center;
-transition:0.3s;
-font-size:12px; 
-position:relative;
+  background:#1a1a1a;
+  border-radius:12px;
+  padding:10px;
+  text-align:center;
+  transition:0.3s;
+  font-size:12px; 
+  position:relative;
 }
 
 .card img{
-width:100%;
-border-radius:8px;
-filter:grayscale(100%) brightness(0.8);
-transition:0.4s;
+  width:100%;
+  border-radius:8px;
+  filter:grayscale(100%) brightness(0.8);
+  transition:0.4s;
 }
-
 .card:hover img{
-filter:grayscale(0%) brightness(1);
-transform:scale(1.09);
-box-shadow:0 0 15px #6a00ff;
+  filter:grayscale(0%) brightness(1);
+  transform:scale(1.09);
+  box-shadow:0 0 15px #6a00ff;
 }
 
 .delete-btn{
-position:absolute;
-top:6px;
-right:6px;
-background:#b00020;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
-padding:4px 6px;
-font-size:12px;
-transition:0.3s;
+  position:absolute;
+  top:6px;
+  right:6px;
+  background:#b00020;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  padding:4px 6px;
+  font-size:12px;
+  transition:0.3s;
 }
-
 .delete-btn:hover{
-background:#ff003c;
-box-shadow:0 0 8px #ff003c;
-transform:scale(1.1);
+  background:#ff003c;
+  box-shadow:0 0 8px #ff003c;
+  transform:scale(1.1);
 }
 
 .stars span{
-cursor:pointer;
-font-size:18px;
-margin:2px;
-color:#555;
+  cursor:pointer;
+  font-size:18px;
+  margin:2px;
+  color:#555;
 }
-
 .stars span.active{color:#ff003c;}
-
 .rating-number{
-font-size:10px;
-opacity:0.7;
+  font-size:10px;
+  opacity:0.7;
 }
 
 .fade-out{
-opacity:0;
-transform:scale(0.8);
-transition:0.4s ease;
+  opacity:0;
+  transform:scale(0.8);
+  transition:0.4s ease;
 }
 
 .modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.8);
-justify-content:center;
-align-items:center;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+  justify-content:center;
+  align-items:center;
 }
 
 .modal-content{
-background:#1a1a1a;
-padding:25px;
-border-radius:12px;
-width:300px;
-text-align:center;
+  background:#1a1a1a;
+  padding:25px;
+  border-radius:12px;
+  width:300px;
+  text-align:center;
 }
 
 .modal-content input{
-width:100%;
-padding:8px;
-margin:10px 0;
-border-radius:6px;
-border:none;
+  width:100%;
+  padding:8px;
+  margin:10px 0;
+  border-radius:6px;
+  border:none;
 }
 </style>
 </head>
-
 <body>
 
 <audio id="selectSound" src="Sound/Select.mp3"></audio>
 <audio id="starSound" src="Sound/Star.mp3"></audio>
 
 <div class="logo">
-<img src="https://raw.githubusercontent.com/Elias-Eugenio/Lista-Saroo/refs/heads/main/Img/Logo%20digital%20com%20chamas%20estilizadas%20v2.png">
+  <img src="https://raw.githubusercontent.com/Elias-Eugenio/Lista-Saroo/refs/heads/main/Img/Logo%20digital%20com%20chamas%20estilizadas%20v2.png">
 </div>
 
 <div id="counter"></div>
@@ -171,338 +161,216 @@ border:none;
 <input type="text" id="searchBar" placeholder="Buscar jogo...">
 
 <div class="action-buttons">
-<button id="addGameBtn">➕ Novo Jogo</button>
-<button id="trashBtn">♻ Lixeira</button>
+  <button id="addGameBtn">➕ Novo Jogo</button>
+  <button id="trashBtn">♻ Lixeira</button>
 </div>
 
 <div id="gameList"></div>
 
 <!-- Modal Novo Jogo -->
 <div id="gameModal" class="modal">
-<div class="modal-content">
-<h3>Novo Jogo</h3>
-<input type="text" id="newGameInput" placeholder="Nome do jogo">
-<div style="display:flex;gap:10px;justify-content:center;">
-<button id="saveGameBtn">Salvar</button>
-<button id="cancelGameBtn" style="background:#555;">Cancelar</button>
-</div>
-</div>
+  <div class="modal-content">
+    <h3>Novo Jogo</h3>
+    <input type="text" id="newGameInput" placeholder="Nome do jogo">
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button id="saveGameBtn">Salvar</button>
+      <button id="cancelGameBtn" style="background:#555;">Cancelar</button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal Lixeira -->
 <div id="trashModal" class="modal">
-<div class="modal-content">
-<h3>♻ Lixeira</h3>
-<div id="trashList"></div>
-<button id="closeTrashBtn" style="background:#555;">Fechar</button>
-</div>
+  <div class="modal-content">
+    <h3>♻ Lixeira</h3>
+    <div id="trashList"></div>
+    <button id="closeTrashBtn" style="background:#555;">Fechar</button>
+  </div>
 </div>
 
 <script>
-
-let games = [
-"Astal",
-"Asuka Limited",
-"Batsugun – Tribute Boosted Arrange",
-"Battle Arena Toshinden",
-"Blast Wind",
-"Bokan to Ippatsu",
-"Bulk Slash",
-"Burning Rangers",
-"Castlevania – Symphony of the Night",
-"Chase H.Q. Plus",
-"Choro Q Park",
-"Clockwork Knight",
-"Cotton 2",
-"Cotton Boomerang",
-"Cyberbots – Fullmetal Madness",
-"Dark Savior",
-"Daytona USA",
-"Dead or Alive",
-"DecAthlete",
-"Die Hard Arcade",
-"Dragon Ball Z – Shinbutouden",
-"Dragon Ball Z – The Legend",
-"Dragon Force",
-"Dungeons & Dragons Collection – Tower of",
-"Earthworm Jim 2",
-"Elevator Action Returns",
-"Fighters Megamix",
-"Final Fight Revenge",
-"Fire Pro Gaiden Blazing Tornado",
-"Galaxy Fight",
-"Garou Densetsu 3 – Road to the Final Victo",
-"Gex",
-"Gokujo Parodius Da! Deluxe Pack",
-"Guardian Heroes",
-"Hokuto no Ken",
-"In the Hunt",
-"Keio Flying Squadron 2",
-"Kyuutenkai",
-"Linkle Liver Story",
-"Magic Knight Rayearth",
-"Marvel Super Heroes vs. Street Fighter",
-"Marvel Super Heroes",
-"Mega Man 8",
-"Metal Slug – Super Vehicle-001",
-"Mortal Kombat Trilogy",
-"Mortal Kombat 3 Ultimate",
-"Mortal Kombat II",
-"NBA Jam – Tournament Edition",
-"NiGHTS into Dreams",
-"Panzer Dragoon",
-"Panzer Dragoon II Zwei",
-"Pocket Fighter",
-"Primal Rage",
-"Rabbit",
-"Radiant Silvergun",
-"Rayman",
-"Real Bout Garou Densetsu",
-"Real Bout Garou Densetsu Special",
-"Revolution X – Music Is the Weapon",
-"Road Rash",
-"Rockman X3",
-"Rockman X4",
-"Rockman 8",
-"Sakura Wars Disco 2",
-"Sakura Wars Disco 1",
-"Saturn Bomberman",
-"Saturn Bomberman Fight!!",
-"Sega Ages – OutRun",
-"Sega Ages – Power Drift",
-"Sega Rally Championship",
-"Segata Sanshirou – Shinken Yuugi",
-"Shining Wisdom",
-"Shinobi-X",
-"Silhouette Mirage",
-"Snatcher",
-"Sonic Jam",
-"Sonic R",
-"Sonic Wings Special",
-"Space Jam",
-"Street Fighter Collection (Disc 2)",
-"Street Fighter Zero 3",
-"Street Fighter Collection (Disc 1)",
-"Street Fighter – The Movie",
-"Street Fighter Zero",
-"Street Fighter Zero 2",
-"Street Fighter Zero 2 Dash",
-"Super Puzzle Fighter II",
-"Super Tempo",
-"Tenchi Muyo! Rensa Hitsuyou",
-"The King of Fighters 95",
-"The King of Fighters 96",
-"The King of Fighters 97",
-"Time Bokan Series – Bokan to Ippatsu! Dorc",
-"Tomb Raiders",
-"Tyrush Deppy",
-"Twinkle Star Sprites (Disc 1)",
-"Twinkle Star Sprites (Disc 2)",
-"Vampire Savior",
-"Virtua Fighter 2",
-"Virtua Fighter Kids",
-"Virtua Fighter Remix",
-"Virtua Racing",
-"Waku Waku 7",
-"World Heroes Perfect",
-"WWF WrestleMania – The Arcade Game",
-"X-Men – Children of the Atom",
-"X-Men Arcade",
-"X-Men vs. Street Fighter",
-"Yakyuuken Special"
+const baseGames=[
+"Astal","Asuka Limited","Batsugun – Tribute Boosted Arrange","Battle Arena Toshinden","Blast Wind",
+"Bokan to Ippatsu","Bulk Slash","Burning Rangers","Castlevania – Symphony of the Night","Chase H.Q. Plus",
+"Choro Q Park","Clockwork Knight","Cotton 2","Cotton Boomerang","Cyberbots – Fullmetal Madness",
+"Dark Savior","Daytona USA","Dead or Alive","DecAthlete","Die Hard Arcade",
+"Dragon Ball Z – Shinbutouden","Dragon Ball Z – The Legend","Dragon Force","Dungeons & Dragons Collection – Tower of",
+"Earthworm Jim 2","Elevator Action Returns","Fighters Megamix","Final Fight Revenge","Fire Pro Gaiden Blazing Tornado",
+"Galaxy Fight","Garou Densetsu 3 – Road to the Final Victo","Gex","Gokujo Parodius Da! Deluxe Pack","Guardian Heroes",
+"Hokuto no Ken","In the Hunt","Keio Flying Squadron 2","Kyuutenkai","Linkle Liver Story","Magic Knight Rayearth",
+"Marvel Super Heroes vs. Street Fighter","Marvel Super Heroes","Mega Man 8","Metal Slug – Super Vehicle-001",
+"Mortal Kombat Trilogy","Mortal Kombat 3 Ultimate","Mortal Kombat II","NBA Jam – Tournament Edition","NiGHTS into Dreams",
+"Panzer Dragoon","Panzer Dragoon II Zwei","Pocket Fighter","Primal Rage","Rabbit","Radiant Silvergun","Rayman",
+"Real Bout Garou Densetsu","Real Bout Garou Densetsu Special","Revolution X – Music Is the Weapon","Road Rash",
+"Rockman X3","Rockman X4","Rockman 8","Sakura Wars Disco 2","Sakura Wars Disco 1","Saturn Bomberman",
+"Saturn Bomberman Fight!!","Sega Ages – OutRun","Sega Ages – Power Drift","Sega Rally Championship",
+"Segata Sanshirou – Shinken Yuugi","Shining Wisdom","Shinobi-X","Silhouette Mirage","Snatcher","Sonic Jam",
+"Sonic R","Sonic Wings Special","Space Jam","Street Fighter Collection (Disc 2)","Street Fighter Zero 3",
+"Street Fighter Collection (Disc 1)","Street Fighter – The Movie","Street Fighter Zero","Street Fighter Zero 2",
+"Street Fighter Zero 2 Dash","Super Puzzle Fighter II","Super Tempo","Tenchi Muyo! Rensa Hitsuyou",
+"The King of Fighters 95","The King of Fighters 96","The King of Fighters 97","Time Bokan Series – Bokan to Ippatsu! Dorc",
+"Tomb Raiders","Tyrush Deppy","Twinkle Star Sprites (Disc 1)","Twinkle Star Sprites (Disc 2)",
+"Vampire Savior","Virtua Fighter 2","Virtua Fighter Kids","Virtua Fighter Remix","Virtua Racing","Waku Waku 7",
+"World Heroes Perfect","WWF WrestleMania – The Arcade Game","X-Men – Children of the Atom",
+"X-Men Arcade","X-Men vs. Street Fighter","Yakyuuken Special"
 ];
 
-let savedGames=JSON.parse(localStorage.getItem("customGames"))||[];
-savedGames.forEach(g=>{if(!games.includes(g))games.push(g);});
+let activeGames = JSON.parse(localStorage.getItem("activeGames")) || [...baseGames];
+let trashGames = JSON.parse(localStorage.getItem("trashGames")) || [];
 
 const selectSound=document.getElementById("selectSound");
 const starSound=document.getElementById("starSound");
 const gameList=document.getElementById("gameList");
 const counter=document.getElementById("counter");
 
+// Normalize function
 function normalizeName(name){
-return name.replace(/[<>:\"/\\|?*]/g,'').trim();
+  return name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[<>:\"/\\|?*]/g,'').trim();
 }
 
-function getRating(game){
-return parseInt(localStorage.getItem("rating_"+game))||0;
-}
-
-function setRating(game,value){
-localStorage.setItem("rating_"+game,value);
-}
+// Ratings
+function getRating(game){return parseInt(localStorage.getItem("rating_"+game))||0;}
+function setRating(game,value){localStorage.setItem("rating_"+game,value);}
 
 function createStars(game,container){
-const div=document.createElement("div");
-div.className="stars";
-let rating=getRating(game);
+  const div=document.createElement("div");
+  div.className="stars";
+  let rating=getRating(game);
 
-for(let i=1;i<=5;i++){
-const star=document.createElement("span");
-star.innerHTML="★";
-if(i<=rating)star.classList.add("active");
+  for(let i=1;i<=5;i++){
+    const star=document.createElement("span");
+    star.innerHTML="★";
+    if(i<=rating)star.classList.add("active");
+    star.onclick=(e)=>{
+      e.stopPropagation();
+      rating=i;
+      setRating(game,i);
+      starSound.currentTime=0; starSound.play();
+      updateStars();
+    };
+    div.appendChild(star);
+  }
 
-star.onclick=(e)=>{
-e.stopPropagation();
-rating=i;
-setRating(game,i);
-starSound.currentTime=0;
-starSound.play();
-update();
-};
-div.appendChild(star);
+  const num=document.createElement("div");
+  num.className="rating-number";
+
+  function updateStars(){
+    div.querySelectorAll("span").forEach((s,i)=>s.classList.toggle("active",i<rating));
+    num.innerText=rating?rating+"/5":"Sem nota";
+  }
+  updateStars();
+  container.appendChild(div);
+  container.appendChild(num);
 }
 
-const num=document.createElement("div");
-num.className="rating-number";
-
-function update(){
-div.querySelectorAll("span").forEach((s,i)=>{
-s.classList.toggle("active",i<rating);
-});
-num.innerText=rating?rating+"/5":"Sem nota";
-}
-update();
-container.appendChild(div);
-container.appendChild(num);
-}
-
+// Load games
 function loadGames(){
-gameList.innerHTML="";
-games.sort((a,b)=>a.localeCompare(b));
+  gameList.innerHTML="";
+  const filteredGames = activeGames.filter(g=>!trashGames.includes(g));
+  filteredGames.sort((a,b)=>a.localeCompare(b,'pt-BR'));
 
-games.forEach(name=>{
-const card=document.createElement("div");
-card.className="card";
+  filteredGames.forEach(name=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.onclick=()=>{selectSound.currentTime=0; selectSound.play();};
 
-card.onclick=()=>{
-selectSound.currentTime=0;
-selectSound.play();
-};
+    const img=document.createElement("img"); img.loading="lazy";
+    const ext=["jpg","png","jfif"];
+    const safe=normalizeName(name);
+    function tryLoad(i=0){
+      if(i>=ext.length){img.src="Img/nocover.jpg"; return;}
+      img.src=`Img/${safe}.${ext[i]}`;
+      img.onerror=()=>tryLoad(i+1);
+    }
+    tryLoad();
 
-const img=document.createElement("img");
-img.loading="lazy";
+    const p=document.createElement("p");
+    p.innerText="💿 "+name;
 
-const ext=["jpg","png","jfif"];
-const safe=normalizeName(name);
+    const del=document.createElement("button");
+    del.innerText="🗑"; del.className="delete-btn";
+    del.onclick=(e)=>{
+      e.stopPropagation();
+      deleteGame(name);
+    };
 
-function tryLoad(i=0){
-if(i>=ext.length){img.src="Img/nocover.jpg";return;}
-img.src=`Img/${safe}.${ext[i]}`;
-img.onerror=()=>tryLoad(i+1);
-}
-tryLoad();
+    card.appendChild(img); card.appendChild(p); card.appendChild(del);
+    createStars(name,card);
+    gameList.appendChild(card);
+  });
 
-const p=document.createElement("p");
-p.innerText="💿 "+name;
-
-card.appendChild(img);
-card.appendChild(p);
-
-const del=document.createElement("button");
-del.innerText="🗑";
-del.className="delete-btn";
-del.onclick=(e)=>{
-e.stopPropagation();
-deleteGame(name,card);
-};
-card.appendChild(del);
-
-createStars(name,card);
-gameList.appendChild(card);
-});
-
-counter.innerText=games.length+" Jogos no Saroo De 64 GB";
+  counter.innerText=filteredGames.length+" Jogos no Saroo De 64 GB";
 }
 
-function deleteGame(name,card){
-if(!confirm("Excluir '"+name+"'?"))return;
-
-card.classList.add("fade-out");
-
-setTimeout(()=>{
-games=games.filter(g=>g!==name);
-
-let trash=JSON.parse(localStorage.getItem("trashGames"))||[];
-trash.push(name);
-localStorage.setItem("trashGames",JSON.stringify(trash));
-
-loadGames();
-},400);
+// Delete game
+function deleteGame(name){
+  if(!confirm("Excluir '"+name+"'?")) return;
+  trashGames.push(name);
+  trashGames = [...new Set(trashGames)];
+  localStorage.setItem("trashGames",JSON.stringify(trashGames));
+  activeGames = activeGames.filter(g=>g!==name);
+  localStorage.setItem("activeGames",JSON.stringify(activeGames));
+  loadGames();
 }
 
+// Restore game
 function restoreGame(name){
-let trash=JSON.parse(localStorage.getItem("trashGames"))||[];
-trash=trash.filter(g=>g!==name);
-localStorage.setItem("trashGames",JSON.stringify(trash));
-
-games.push(name);
-loadGames();
-openTrash();
+  trashGames = trashGames.filter(g=>g!==name);
+  localStorage.setItem("trashGames",JSON.stringify(trashGames));
+  if(!activeGames.includes(name)) activeGames.push(name);
+  localStorage.setItem("activeGames",JSON.stringify(activeGames));
+  loadGames();
+  openTrash();
 }
 
+// Trash modal
 function openTrash(){
-const list=document.getElementById("trashList");
-list.innerHTML="";
-let trash=JSON.parse(localStorage.getItem("trashGames"))||[];
-
-if(trash.length===0){
-list.innerHTML="<p>Lixeira vazia</p>";
-}else{
-trash.forEach(g=>{
-const div=document.createElement("div");
-div.style.margin="5px";
-
-const span=document.createElement("span");
-span.innerText=g;
-
-const btn=document.createElement("button");
-btn.innerText="Restaurar";
-btn.style.marginLeft="10px";
-btn.onclick=()=>restoreGame(g);
-
-div.appendChild(span);
-div.appendChild(btn);
-list.appendChild(div);
-});
+  const list=document.getElementById("trashList");
+  list.innerHTML="";
+  if(trashGames.length===0){ list.innerHTML="<p>Lixeira vazia</p>"; }
+  else{
+    trashGames.forEach(g=>{
+      const div=document.createElement("div"); div.style.margin="5px";
+      const span=document.createElement("span"); span.innerText=g;
+      const btn=document.createElement("button"); btn.innerText="Restaurar"; btn.style.marginLeft="10px";
+      btn.onclick=()=>restoreGame(g);
+      div.appendChild(span); div.appendChild(btn); list.appendChild(div);
+    });
+  }
+  document.getElementById("trashModal").style.display="flex";
 }
 
-document.getElementById("trashModal").style.display="flex";
+// New Game
+function saveNewGame(){
+  const val=document.getElementById("newGameInput").value.trim();
+  if(!val || activeGames.includes(val)) return;
+  activeGames.push(val);
+  localStorage.setItem("activeGames",JSON.stringify(activeGames));
+  selectSound.currentTime=0; selectSound.play();
+  document.getElementById("newGameInput").value="";
+  document.getElementById("gameModal").style.display="none";
+  loadGames();
 }
 
+// Event listeners
 document.getElementById("trashBtn").onclick=openTrash;
 document.getElementById("closeTrashBtn").onclick=()=>document.getElementById("trashModal").style.display="none";
-
 document.getElementById("addGameBtn").onclick=()=>document.getElementById("gameModal").style.display="flex";
 document.getElementById("cancelGameBtn").onclick=()=>document.getElementById("gameModal").style.display="none";
-
 document.getElementById("saveGameBtn").onclick=saveNewGame;
-document.getElementById("newGameInput").addEventListener("keypress",e=>{if(e.key==="Enter")saveNewGame();});
+document.getElementById("newGameInput").addEventListener("keypress",e=>{if(e.key==="Enter") saveNewGame();});
 
-function saveNewGame(){
-const val=document.getElementById("newGameInput").value.trim();
-if(!val||games.includes(val))return;
+// Search functionality
+document.getElementById("searchBar").addEventListener("input",function(){
+  const term=this.value.toLowerCase();
+  document.querySelectorAll(".card").forEach(card=>{
+    card.style.display=card.innerText.toLowerCase().includes(term)?"block":"none";
+  });
+});
 
-games.push(val);
-
-let custom=JSON.parse(localStorage.getItem("customGames"))||[];
-custom.push(val);
-localStorage.setItem("customGames",JSON.stringify(custom));
-
-selectSound.currentTime=0;
-selectSound.play();
-
-document.getElementById("newGameInput").value="";
-document.getElementById("gameModal").style.display="none";
-
-loadGames();
-}
-
+// Initial load
 loadGames();
 
 </script>
-
 </body>
 </html>
-
-
