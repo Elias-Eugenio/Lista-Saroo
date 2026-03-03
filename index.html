@@ -18,6 +18,37 @@ body{
   padding:20px;
 }
 
+/* Barra idioma */
+.top-bar{
+  width:100%;
+  height:32px;
+  background:#000000;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding:0 15px;
+  gap:12px;
+  border-bottom:1px solid #333;
+  margin:-20px -20px 20px -20px;
+}
+
+.flag{
+  cursor:pointer;
+  font-size:18px;
+  transition:0.2s;
+  opacity:0.6;
+}
+
+.flag.active{
+  opacity:1;
+  transform:scale(1.2);
+}
+
+.flag:hover{
+  transform:scale(1.2);
+  opacity:1;
+}
+
 .logo{text-align:center;margin-bottom:30px;}
 .logo img{width:400px;max-width:95%;}
 
@@ -178,6 +209,12 @@ body{
 </style>
 </head>
 <body>
+
+  <div class="top-bar">
+  <span class="flag" data-lang="pt">🇧🇷</span>
+  <span class="flag" data-lang="en">🇺🇸</span>
+  <span class="flag" data-lang="es">🇪🇸</span>
+</div>
 
 <audio id="selectSound" src="Sound/Select.mp3"></audio>
 <audio id="starSound" src="Sound/Star.mp3"></audio>
@@ -344,9 +381,8 @@ const baseGames=[
 let activeGames = JSON.parse(localStorage.getItem("activeGames")) || [...baseGames];
 let trashGames = JSON.parse(localStorage.getItem("trashGames")) || [];
 
-// Dados dos jogos
 const gameInfo = {
-  "Astal": { genre: "Plataforma", year: 1995 },
+"Astal": { genre: "Plataforma", year: 1995 },
 "Asuka Limited": { genre: "Luta", year: 1997 },
 "Batsugun – Tribute Boosted Arrange": { genre: "Shoot 'em up", year: 1996 },
 "Battle Arena Toshinden": { genre: "Luta", year: 1995 },
@@ -412,8 +448,8 @@ const gameInfo = {
 "WWF WrestleMania – The Arcade Game": { genre: "Luta", year: 1995 },
 "X-Men vs. Street Fighter": { genre: "Luta", year: 1998 },
 "Yakyuuken Special": { genre: "Adulto / Party", year: 1996 },
-  // adicionar mais detalhes aqui
 };
+ 
 
 const selectSound=document.getElementById("selectSound");
 const starSound=document.getElementById("starSound");
@@ -466,6 +502,8 @@ function loadGames(){
     card.className="card";
     card.onclick=()=>{selectSound.currentTime=0; selectSound.play();};
 
+    const info = gameInfo[name];
+
     const img=document.createElement("img"); img.loading="lazy";
     const ext=["jpg","png","jfif"];
     const safe=normalizeName(name);
@@ -474,6 +512,8 @@ function loadGames(){
       img.src=`Img/${safe}.${ext[i]}`;
       img.onerror=()=>tryLoad(i+1);
     }
+
+
     tryLoad();
 
     const p=document.createElement("p");
@@ -527,7 +567,9 @@ function restoreGame(name){
 function openTrash(){
   const list=document.getElementById("trashList");
   list.innerHTML="";
-  if(trashGames.length===0){ list.innerHTML="<p>Lixeira vazia</p>"; }
+  if(trashGames.length===0){ 
+  list.innerHTML="<p>"+translations[currentLang].emptyTrash+"</p>"; 
+}
   else{
     trashGames.forEach(g=>{
       const div=document.createElement("div"); div.style.margin="5px";
@@ -548,7 +590,11 @@ function saveNewGame(){
   selectSound.currentTime=0; selectSound.play();
   document.getElementById("newGameInput").value="";
   document.getElementById("gameModal").style.display="none";
-  loadGames();
+
+
+  
+applyLanguage(currentLang);
+loadGames();
 }
 
 // Abrir screenshot com detalhes
@@ -569,8 +615,9 @@ function openScreenshot(gameName){
 
   // Preencher informações
   title.innerText = gameName;
-  genre.innerText = "Gênero: " + (gameInfo[gameName]?.genre || "Desconhecido");
-  year.innerText = "Ano: " + (gameInfo[gameName]?.year || "Desconhecido");
+  const t = translations[currentLang];
+genre.innerText = t.genre + ": " + (gameInfo[gameName]?.genre || t.unknown);
+year.innerText = t.year + ": " + (gameInfo[gameName]?.year || t.unknown);
 
   const modal=document.getElementById("screenshotModal");
   modal.style.display="flex";
@@ -613,10 +660,96 @@ document.getElementById("searchBar").addEventListener("input",function(){
   });
 });
 
+/* =========================
+   SISTEMA DE TRADUÇÃO
+========================= */
+
+const translations = {
+  pt: {
+    search: "Buscar jogo...",
+    newGame: "➕ Novo Jogo",
+    trash: "♻ Lixeira",
+    save: "Salvar",
+    cancel: "Cancelar",
+    close: "Fechar",
+    newGameTitle: "Novo Jogo",
+    trashTitle: "♻ Lixeira",
+    emptyTrash: "Lixeira vazia",
+    genre: "Gênero",
+    year: "Ano",
+    unknown: "Desconhecido",
+    noRating: "Sem nota"
+  },
+  en: {
+    search: "Search game...",
+    newGame: "➕ New Game",
+    trash: "♻ Trash",
+    save: "Save",
+    cancel: "Cancel",
+    close: "Close",
+    newGameTitle: "New Game",
+    trashTitle: "♻ Trash",
+    emptyTrash: "Trash empty",
+    genre: "Genre",
+    year: "Year",
+    unknown: "Unknown",
+    noRating: "No rating"
+  },
+  es: {
+    search: "Buscar juego...",
+    newGame: "➕ Nuevo Juego",
+    trash: "♻ Papelera",
+    save: "Guardar",
+    cancel: "Cancelar",
+    close: "Cerrar",
+    newGameTitle: "Nuevo Juego",
+    trashTitle: "♻ Papelera",
+    emptyTrash: "Papelera vacía",
+    genre: "Género",
+    year: "Año",
+    unknown: "Desconocido",
+    noRating: "Sin nota"
+  }
+};
+
+let currentLang = localStorage.getItem("language") || "pt";
+
+function applyLanguage(lang){
+  currentLang = lang;
+  localStorage.setItem("language", lang);
+
+  const t = translations[lang];
+
+  document.getElementById("searchBar").placeholder = t.search;
+  document.getElementById("addGameBtn").innerText = t.newGame;
+  document.getElementById("trashBtn").innerText = t.trash;
+
+  document.querySelector("#gameModal h3").innerText = t.newGameTitle;
+  document.querySelector("#trashModal h3").innerText = t.trashTitle;
+
+  document.getElementById("saveGameBtn").innerText = t.save;
+  document.getElementById("cancelGameBtn").innerText = t.cancel;
+  document.getElementById("closeTrashBtn").innerText = t.close;
+  document.getElementById("closeScreenshotBtn").innerText = t.close;
+
+  // Atualizar flags ativas
+  document.querySelectorAll(".flag").forEach(f=>{
+    f.classList.toggle("active", f.dataset.lang === lang);
+  });
+
+  loadGames(); // Recarrega textos dependentes
+}
+
+document.querySelectorAll(".flag").forEach(flag=>{
+  flag.addEventListener("click", ()=>{
+    applyLanguage(flag.dataset.lang);
+  });
+});
+
 // Inicializar
 loadGames();
 </script>
 </body>
-</html>
 
+</html>
 
