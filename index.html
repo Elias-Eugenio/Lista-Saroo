@@ -470,10 +470,31 @@ const baseGames=[
 "X-Men vs. Street Fighter",
 "Yakyuuken Special"
 ];
-let activeGames = JSON.parse(localStorage.getItem("activeGames")) || [...baseGames];
+
+let activeGames = JSON.parse(localStorage.getItem("activeGames")) || [];
 let trashGames = JSON.parse(localStorage.getItem("trashGames")) || [];
 
+// adiciona novos jogos do baseGames automaticamente
+baseGames.forEach(game=>{
+  if(!activeGames.includes(game) && !trashGames.includes(game)){
+    activeGames.push(game);
+  }
+});
+
+localStorage.setItem("activeGames",JSON.stringify(activeGames));
+
 const gameInfo = {
+
+"Duke Nukem 3D": { genre: "FPS", year: 1997 },
+"Fighter's History Dynamite": { genre: "Luta", year: 1997 },
+"Groove on Fight": { genre: "Luta", year: 1997 },
+"Gunbird": { genre: "Shoot 'em up", year: 1995 },
+"Jung Rhythm": { genre: "Puzzle/Música", year: 1996 },
+"Kingdom Grandprix": { genre: "Shoot 'em up / Corrida", year: 1996 },
+"Resident Evil": { genre: "Survival Horror", year: 1997 },
+"Samurai Spirits – Bushidou Retsuden": { genre: "RPG", year: 1997 },
+"Samurai Spirits – Zankurou Musouken": { genre: "Luta", year: 1996 },
+"Virtua Photo Studio": { genre: "Simulação", year: 1996 }, 
 "Astal": { genre: "Plataforma", year: 1995 },
 "Asuka Limited": { genre: "Luta", year: 1997 },
 "Batsugun – Tribute Boosted Arrange": { genre: "Shoot 'em up", year: 1996 },
