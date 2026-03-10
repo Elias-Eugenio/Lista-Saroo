@@ -474,7 +474,13 @@ const baseGames=[
 "Yakyuuken Special"
 ];
 
-let activeGames = JSON.parse(localStorage.getItem("activeGames")) || [...baseGames];
+let activeGames = JSON.parse(localStorage.getItem("activeGames"));
+
+if(!activeGames){
+  activeGames = [...baseGames];
+  localStorage.setItem("activeGames", JSON.stringify(activeGames));
+}
+
 let trashGames = JSON.parse(localStorage.getItem("trashGames")) || [];
   
 const gameInfo = {
