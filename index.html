@@ -9,9 +9,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
 
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 
 <style>
 body{
@@ -353,7 +350,7 @@ body{
 <script>
 // Base e active games
 const baseGames=[
-"Astal",
+  "Astal",
 "Asuka Limited",
 "Batsugun – Tribute Boosted Arrange",
 "Battle Arena Toshinden",
@@ -376,11 +373,9 @@ const baseGames=[
 "Dragon Ball Z – Shinbutouden",
 "Dragon Ball Z – The Legend",
 "Dragon Force",
-"Duke Nukem 3D",
 "Dungeons & Dragons Collection – Tower of",
 "Earthworm Jim 2",
 "Elevator Action Returns",
-"Fighter's History Dynamite",
 "Fighters Megamix",
 "Final Fight Revenge",
 "Fire Pro Gaiden Blazing Tornado",
@@ -388,14 +383,10 @@ const baseGames=[
 "Garou Densetsu 3 – Road to the Final Victo",
 "Gex",
 "Gokujo Parodius Da! Deluxe Pack",
-"Groove on Fight",
 "Guardian Heroes",
-"Gunbird",
 "Hokuto no Ken",
 "In the Hunt",
-"Jung Rhythm",
 "Keio Flying Squadron 2",
-"Kingdom Grandprix",
 "Kyuutenkai",
 "Linkle Liver Story",
 "Magic Knight Rayearth",
@@ -417,7 +408,6 @@ const baseGames=[
 "Rayman",
 "Real Bout Garou Densetsu",
 "Real Bout Garou Densetsu Special",
-"Resident Evil",
 "Revolution X – Music Is the Weapon",
 "Road Rash",
 "Rockman X3",
@@ -425,8 +415,6 @@ const baseGames=[
 "Rockman 8",
 "Sakura Wars Disco 2",
 "Sakura Wars Disco 1",
-"Samurai Spirits – Bushidou Retsuden",
-"Samurai Spirits – Zankurou Musouken",
 "Saturn Bomberman",
 "Saturn Bomberman Fight!!",
 "Sega Ages – OutRun",
@@ -464,36 +452,18 @@ const baseGames=[
 "Virtua Fighter Kids",
 "Virtua Fighter Remix",
 "Virtua Racing",
-"Virtua Photo Studio",
 "Waku Waku 7",
 "World Heroes Perfect",
 "WWF WrestleMania – The Arcade Game",
 "X-Men – Children of the Atom",
 "X-Men Arcade",
 "X-Men vs. Street Fighter",
-"Yakyuuken Special"
+"Yakyuuken Special" // coloque os outros aqui
 ];
-
-let activeGames = JSON.parse(localStorage.getItem("activeGames"));
-
-if(!activeGames){
-  activeGames = [...baseGames];
-  localStorage.setItem("activeGames", JSON.stringify(activeGames));
-}
-
+let activeGames = JSON.parse(localStorage.getItem("activeGames")) || [...baseGames];
 let trashGames = JSON.parse(localStorage.getItem("trashGames")) || [];
-  
+
 const gameInfo = {
-"Duke Nukem 3D": { genre: "FPS", year: 1997 },
-"Fighter's History Dynamite": { genre: "Luta", year: 1997 },
-"Groove on Fight": { genre: "Luta", year: 1997 },
-"Gunbird": { genre: "Shoot 'em up", year: 1995 },
-"Jung Rhythm": { genre: "Puzzle/Música", year: 1996 },
-"Kingdom Grandprix": { genre: "Shoot 'em up / Corrida", year: 1996 },
-"Resident Evil": { genre: "Survival Horror", year: 1997 },
-"Samurai Spirits – Bushidou Retsuden": { genre: "RPG", year: 1997 },
-"Samurai Spirits – Zankurou Musouken": { genre: "Luta", year: 1996 },
-"Virtua Photo Studio": { genre: "Simulação", year: 1996 },
 "Astal": { genre: "Plataforma", year: 1995 },
 "Asuka Limited": { genre: "Luta", year: 1997 },
 "Batsugun – Tribute Boosted Arrange": { genre: "Shoot 'em up", year: 1996 },
@@ -872,6 +842,4 @@ applyLanguage(currentLang);
 </body>
 
 </html>
-
-
 
