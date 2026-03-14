@@ -655,7 +655,7 @@ const baseGames=[
 "World Series Baseball",
 "World Series Baseball II",
 "Worms",
-"v",
+"WWF WrestleMania The Arcade Game",
 "X-Men Children of the Atom",
 "X-Men vs Street Fighter",
 "Yakyuuken Special",
@@ -666,7 +666,10 @@ const baseGames=[
 let activeGames = JSON.parse(localStorage.getItem("activeGames")) || [];
 let trashGames = JSON.parse(localStorage.getItem("trashGames")) || [];
 
-// adiciona novos jogos do baseGames automaticamente
+// Sincroniza activeGames com baseGames
+activeGames = activeGames.filter(game => baseGames.includes(game));
+
+// adiciona novos jogos
 baseGames.forEach(game=>{
   if(!activeGames.includes(game) && !trashGames.includes(game)){
     activeGames.push(game);
@@ -750,7 +753,7 @@ const gameInfo = {
 "Virtua Racing": { genre: "Corrida", year: 1995 },
 "Waku Waku 7": { genre: "Luta", year: 1996 },
 "World Heroes Perfect": { genre: "Luta", year: 1996 },
-"WWF WrestleMania The Arcade Game": { genre: "Luta", year: 1995 },
+"WWF WrestleMania – The Arcade Game": { genre: "Luta", year: 1995 },
 "X-Men vs. Street Fighter": { genre: "Luta", year: 1998 },
 "Yakyuuken Special": { genre: "Adulto / Party", year: 1996 },
 "Duke Nukem 3D": { genre: "FPS", year: 1997 },
